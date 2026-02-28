@@ -1,0 +1,166 @@
+.pb-topbar {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 8px 14px;
+  
+  .pb-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pb-input-title {
+    max-width: 220px;
+    font-weight: 600;
+  }
+
+  .pb-slug-prefix {
+    font-size: 12px;
+    color: #4b5e55;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .pb-input-slug {
+    max-width: 140px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  .pb-topbar-center {
+    flex-shrink: 0;
+  }
+
+  .pb-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .pb-topbar-sep {
+    width: 1px;
+    height: 20px;
+    background: #1a2e24;
+    margin: 0 2px;
+  }
+
+  .pb-autosave-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    user-select: none;
+
+    input[type='checkbox'] {
+      appearance: none;
+      width: 28px;
+      height: 16px;
+      background: #1a2e24;
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 12px;
+        height: 12px;
+        background: #6b7a72;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+
+      &:checked {
+        background: #10b98140;
+
+        &::after {
+          left: 14px;
+          background: #10b981;
+        }
+      }
+    }
+  }
+
+  .pb-autosave-label {
+    font-size: 11px;
+    color: #6b7a72;
+    font-weight: 500;
+  }
+
+  .pb-btn-sm {
+    padding: 4px 10px;
+    font-size: 14px;
+    min-width: 0;
+  }
+
+  .pb-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7a72;
+    white-space: nowrap;
+  }
+
+  .pb-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6b7a72;
+    flex-shrink: 0;
+  }
+
+  .pb-status-saved {
+    color: #10b981;
+
+    .pb-status-dot {
+      background: #10b981;
+    }
+  }
+
+  .pb-status-saving {
+    color: #34d399;
+
+    .pb-status-dot {
+      background: #34d399;
+      animation: pulse-dot 1s infinite;
+    }
+  }
+
+  .pb-status-error {
+    color: #ef4444;
+
+    .pb-status-dot {
+      background: #ef4444;
+    }
+  }
+
+  .pb-status-time {
+    color: #4b5e55;
+    font-weight: 400;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
