@@ -11,6 +11,7 @@ import {
 import { useRoute } from 'vue-router'
 
 import { apiRequest } from 'nucleify'
+
 import * as AtomicAtom from '../../../../../nuxt/atomic/atom'
 import * as AtomicMolecule from '../../../../../nuxt/atomic/molecule'
 import * as AtomicOrganism from '../../../../../nuxt/atomic/organism'
