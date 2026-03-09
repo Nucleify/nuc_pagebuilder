@@ -1,58 +1,128 @@
-:global(.pb-confirm-dialog.p-dialog) {
+$pb-dialog-bg: rgb(8 12 10 / 96%);
+$pb-dialog-border: #1a2e24;
+$pb-dialog-radius: 14px;
+$pb-dialog-color: #d4dbd7;
+$pb-dialog-accent: #10b981;
+$pb-dialog-input-bg: #060d09;
+
+.pb-confirm-dialog.p-dialog {
   width: 95vw !important;
   max-width: 440px !important;
-  background: rgb(0 0 0 / 60%) !important;
-  backdrop-filter: blur(16px) !important;
-  border: 1px solid rgb(16 185 129 / 20%) !important;
-  border-radius: 16px !important;
-  color: #f5f4f4 !important;
-  box-shadow: 0 24px 64px rgb(0 0 0 / 50%), 0 0 0 1px rgb(255 255 255 / 4%) inset;
+  background: $pb-dialog-bg !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid $pb-dialog-border !important;
+  border-radius: $pb-dialog-radius !important;
+  color: $pb-dialog-color !important;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 40%), 0 0 0 1px rgb(255 255 255 / 3%) inset;
 }
 
-:global(.pb-confirm-dialog .p-dialog-header) {
+.pb-confirm-dialog .p-dialog-header {
   background: transparent !important;
-  padding: 1.25rem 1.5rem 0.5rem !important;
+  padding: 1.25rem 1.5rem !important;
+  border-bottom: 1px solid $pb-dialog-border;
 }
 
-:global(.pb-confirm-dialog .p-dialog-content) {
+.pb-confirm-dialog .p-dialog-content {
   background: transparent !important;
-  padding: 0.5rem 1.5rem 1rem !important;
+  padding: 0.75rem 1.5rem 1rem !important;
 }
 
-:global(.pb-confirm-dialog .p-dialog-footer) {
+.pb-confirm-dialog .p-dialog-footer {
   background: transparent !important;
   padding: 0.75rem 1.5rem 1.25rem !important;
-  border-top: 1px solid rgb(63 63 70 / 50%);
+  border-top: 1px solid $pb-dialog-border;
 }
 
-:global(.pb-confirm-dialog .p-dialog-header-actions .p-button) {
-  color: #10b981 !important;
-  border: 1px solid #3f3f46;
+.pb-confirm-dialog .p-dialog-header-actions .p-button {
+  color: $pb-dialog-accent !important;
+  border: 1px solid $pb-dialog-border;
+  background: $pb-dialog-input-bg !important;
   border-radius: 8px;
   width: 32px;
   height: 32px;
   transition: all 0.15s ease;
+
+  &:hover {
+    background: rgb(16 185 129 / 12%) !important;
+    border-color: $pb-dialog-accent;
+  }
 }
 
-:global(.pb-confirm-dialog .p-dialog-header-actions .p-button:hover) {
-  background: rgb(16 185 129 / 12%) !important;
-  border-color: #10b981;
+.pb-confirm-dialog .pb-confirm-footer .p-button {
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  transition: all 0.15s ease;
+
+  &.p-button-secondary,
+  &[data-p-severity='secondary'] {
+    border: 1px solid $pb-dialog-border;
+    background: $pb-dialog-input-bg;
+    color: $pb-dialog-color;
+
+    &:hover {
+      border-color: rgb(16 185 129 / 25%);
+      background: #0a1510;
+    }
+  }
+
+  &.p-button-danger,
+  &[data-p-severity='danger'] {
+    border: 1px solid #dc2626;
+    background: #dc2626;
+    color: #fff;
+
+    &:hover {
+      background: #b91c1c;
+      border-color: #b91c1c;
+    }
+  }
+}
+
+.pb-confirm-dialog {
+  input:not([type='checkbox'], [type='radio']),
+  .p-inputtext,
+  textarea.p-inputtextarea {
+    width: 100%;
+    border: 1px solid $pb-dialog-border;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: $pb-dialog-input-bg;
+    color: $pb-dialog-color;
+    transition: border-color 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: rgb(16 185 129 / 50%);
+    }
+  }
+
+  textarea.p-inputtextarea {
+    min-height: 80px;
+  }
+
+  label:not(.p-checkbox-label, .p-radiobutton-label) {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #8fa89a;
+  }
 }
 
 .pb-confirm-title {
   font-weight: 600;
   font-size: 18px;
-  color: #f5f4f4;
+  color: $pb-dialog-color;
 }
 
 .pb-confirm-text {
-  color: #d4dbd7;
+  color: #8fa89a;
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
 
   strong {
-    color: #f5f4f4;
+    color: $pb-dialog-color;
   }
 }
 

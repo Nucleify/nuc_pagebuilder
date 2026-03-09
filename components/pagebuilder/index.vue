@@ -43,7 +43,7 @@
         :layout="layout"
         :selected-node-id="selectedNodeId"
         :dragged-node-id="draggedNodeId"
-        :drop-target-index="dropTargetIndex"
+        :drop-target="dropTarget"
         :resolved-component-tag="resolvedComponentTag"
         :component-props="componentProps"
         :widget-display-name="nodeWidgetDisplayName"
@@ -56,6 +56,9 @@
         @node-drag-end="onNodeDragEnd"
         @select-node="selectNode"
         @remove-node="removeNode"
+        @container-drag-over="onContainerDragOver"
+        @container-drop="onContainerDrop"
+        @container-drag-leave="onContainerDragLeave"
       />
 
       <Inspector
@@ -67,8 +70,11 @@
         :selected-page-slug="selectedPageSlug"
         :form-slug="form.slug"
         :selected-node="selectedNode"
+        :selected-node-is-container="selectedNodeIsContainer"
         :has-text-prop="hasTextProp"
         :active-component-schema="activeComponentSchema"
+        :container-props-schema="containerPropsSchema"
+        :native-style-schema="nativeStyleSchema"
         :get-component-prop="getComponentProp"
         :component-props-json="componentPropsJson"
         :component-json-error="componentJsonError"
@@ -76,10 +82,12 @@
         @update:page-style-lang="pageStyleLang = $event"
         @setting-change="onSettingChange"
         @node-prop-change="onNodePropChange"
+        @node-style-change="onNodeStyleChange"
         @custom-styles-input="onCustomStylesInput"
         @set-component-prop="setComponentProp"
         @set-component-prop-json="setComponentPropJson"
         @component-props-json-input="onComponentPropsJsonInput"
+        @set-row-columns="onSetRowColumns"
       />
     </div>
   </section>
@@ -121,9 +129,10 @@ const {
   confirmDeletePageId,
   confirmDeletePageName,
   confirmRemoveNode,
+  containerPropsSchema,
   createPage,
   draggedNodeId,
-  dropTargetIndex,
+  dropTarget,
   filteredWidgets,
   form,
   getComponentProp,
@@ -135,16 +144,21 @@ const {
   layout,
   listItems,
   loadPage,
+  nativeStyleSchema,
   nodePreviewText,
   nodeWidgetDisplayName,
   onCanvasDragLeave,
   onCanvasDragOver,
   onCanvasDrop,
   onComponentPropsJsonInput,
+  onContainerDragLeave,
+  onContainerDragOver,
+  onContainerDrop,
   onCustomStylesInput,
   onNodeDragEnd,
   onNodeDragStart,
   onNodePropChange,
+  onNodeStyleChange,
   onSettingChange,
   onWidgetDragStart,
   pageCustomStyles,
@@ -160,9 +174,11 @@ const {
   selectNode,
   selectedNode,
   selectedNodeId,
+  selectedNodeIsContainer,
   selectedPageId,
   selectedPageSlug,
   setComponentProp,
+  onSetRowColumns,
   setComponentPropJson,
   toggleGroup,
   undo,
@@ -171,5 +187,6 @@ const {
 } = usePagebuilderEditor()
 </script>
 
-<style lang="scss" src="./_index.scss"></style>
-
+<style lang="scss">
+@import 'index';
+</style>

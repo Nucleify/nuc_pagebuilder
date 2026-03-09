@@ -1,8 +1,8 @@
-import { GROUP_ICONS, GROUP_ORDER, WIDGET_ICONS } from '../constants'
 import type {
   PageBuilderWidgetDefinitionInterface,
   WidgetGroup,
-} from '../types'
+} from 'nucleify'
+import { GROUP_ICONS, GROUP_ORDER, WIDGET_ICONS } from 'nucleify'
 
 export function getWidgetGroup(
   widget: PageBuilderWidgetDefinitionInterface

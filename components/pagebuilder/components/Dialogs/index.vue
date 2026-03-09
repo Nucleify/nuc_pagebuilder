@@ -40,17 +40,17 @@
     @update:visible="emit('close-page-dialog')"
   >
     <template #header>
-      <span class="pb-confirm-title">Delete page?</span>
+      <span class="pb-confirm-title">Usunąć stronę?</span>
     </template>
 
     <p class="pb-confirm-text">
-      Are you sure you want to delete <strong>{{ confirmDeletePageName }}</strong>? This action cannot be undone.
+      Czy na pewno chcesz usunąć <strong>{{ confirmDeletePageName }}</strong>? Tej operacji nie można cofnąć.
     </p>
 
     <template #footer>
       <div class="pb-confirm-footer">
-        <ad-button label="Cancel" severity="secondary" outlined @click="emit('close-page-dialog')" />
-        <ad-button label="Delete" severity="danger" @click="emit('confirm-delete-page')" />
+        <ad-button label="Anuluj" severity="secondary" outlined @click="emit('close-page-dialog')" />
+        <ad-button label="Usuń" severity="danger" @click="emit('confirm-delete-page')" />
       </div>
     </template>
   </Dialog>
@@ -74,4 +74,6 @@ const emit = defineEmits<{
 }>()
 </script>
 
-<style scoped lang="scss" src="./_index.scss"></style>
+<style lang="scss">
+@import 'index';
+</style>

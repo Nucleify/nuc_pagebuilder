@@ -88,7 +88,15 @@
   }
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1024px) {
+  .pb-editor {
+    .pb-layout {
+      grid-template-columns: 240px 1fr 260px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
   .pb-editor {
     .pb-layout {
       grid-template-columns: 1fr;

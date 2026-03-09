@@ -1,7 +1,7 @@
 import type {
   PageBuilderWidgetDefinitionInterface,
   PageBuilderWidgetSourceType,
-} from './index'
+} from '.'
 
 export type PageBuilderSaveState = 'idle' | 'saving' | 'saved' | 'error'
 
@@ -12,4 +12,10 @@ export interface WidgetGroup {
   label: string
   icon: string
   widgets: PageBuilderWidgetDefinitionInterface[]
+}
+
+export interface DropTargetInfo {
+  parentId: string | null
+  index: number
+  slotName?: string
 }

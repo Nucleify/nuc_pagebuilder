@@ -1,4 +1,20 @@
+export const AD_TYPE_OPTIONS = [
+  'main',
+  'activity',
+  'article',
+  'contact',
+  'file',
+  'money',
+  'question',
+  'technology',
+  'user',
+] as const
+
 export const WIDGET_ICONS: Record<string, string> = {
+  'native-container': '📦',
+  'native-row': '↔️',
+  'native-column': '↕️',
+  'native-section': '📑',
   'native-heading': '🔤',
   'native-text': '📝',
   'native-button': '🔘',
@@ -32,6 +48,10 @@ export const GROUP_ORDER = [
 ]
 
 export const WIDGET_DISPLAY_NAMES: Record<string, string> = {
+  container: '📦 Container',
+  row: '↔️ Row',
+  column: '↕️ Column',
+  section: '📑 Section',
   heading: '📝 Heading',
   text: '📄 Text',
   button: '🔘 Button',

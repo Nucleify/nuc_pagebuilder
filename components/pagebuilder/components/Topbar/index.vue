@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PageBuilderSaveState } from '../../types'
+import type { PageBuilderSaveState } from 'nucleify'
 
 interface Props {
   title: string
@@ -95,4 +95,6 @@ function onAutosaveChange(event: Event): void {
 }
 </script>
 
-<style scoped lang="scss" src="./_index.scss"></style>
+<style lang="scss">
+@import 'index';
+</style>

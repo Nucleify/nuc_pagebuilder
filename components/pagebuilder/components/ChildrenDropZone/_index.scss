@@ -1,0 +1,43 @@
+.pb-children-drop-zone {
+  min-height: 48px;
+  border: 1px dashed #1a2e2440;
+  border-radius: 6px;
+  padding: 4px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &.drop-active {
+    border-color: #10b981;
+    background: rgb(16 185 129 / 8%);
+  }
+
+  .pb-slot-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #10b98180;
+    padding: 2px 6px;
+    margin-bottom: 2px;
+  }
+
+  .pb-children-empty {
+    font-size: 10px;
+    color: #4b5e5580;
+    text-align: center;
+    padding: 4px 0;
+  }
+
+  .pb-drop-indicator {
+    height: 0;
+    margin: 0;
+    transition: all 0.12s ease;
+    border-radius: 3px;
+    pointer-events: none;
+
+    &.active {
+      height: 3px;
+      margin: 2px 0;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b98160;
+    }
+  }
+}

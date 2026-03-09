@@ -10,31 +10,46 @@ import {
 } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { apiRequest } from 'nucleify'
-
-import * as AtomicAtom from '../../../../../nuxt/atomic/atom'
-import * as AtomicMolecule from '../../../../../nuxt/atomic/molecule'
-import * as AtomicOrganism from '../../../../../nuxt/atomic/organism'
-import { COMPONENT_PROPS_SCHEMA } from '../config/component_props_schema'
-import { PAGE_BUILDER_WIDGETS } from '../constants'
 import type {
+  DropTargetInfo,
   PageBuilderLayoutInterface,
   PageBuilderNodeInterface,
   PageBuilderPageInterface,
   PageBuilderSaveState,
   PageBuilderWidgetSourceFilter,
   WidgetGroup,
-} from '../types'
+} from 'nucleify'
 import {
+  AD_TYPE_OPTIONS,
+  apiRequest,
+  buildGroupedWidgets,
   buildLocalAtomicComponents,
+  COMPONENT_PROPS_SCHEMA,
+  CONTAINER_PROPS_SCHEMA,
+  createLayout,
+  createNode,
+  extractPropsSchema,
+  findNodeById,
+  findParentOfNode,
   getComponentProps,
+  getSlotChildren,
+  insertAtSlotIndex,
   listItems,
+  mergeSchemas,
+  NATIVE_WIDGET_STYLE_SCHEMA,
+  nodeAcceptsChildren,
   nodePreviewText,
+  PAGE_BUILDER_WIDGETS,
+  removeNodeById,
   resolveComponentTag,
+  setRowColumns,
+  toPascalCase,
   widgetDisplayName,
-} from './components'
-import { createLayout, createNode } from './layout'
-import { buildGroupedWidgets } from './widgets'
+} from 'nucleify'
+
+import * as AtomicAtom from 'nucleify/atom'
+import * as AtomicMolecule from 'nucleify/molecule'
+import * as AtomicOrganism from 'nucleify/organism'
 
 export function usePagebuilderEditor() {
   const route = useRoute()
@@ -52,7 +67,7 @@ export function usePagebuilderEditor() {
   const selectedPageSlug = ref<string | null>(null)
   const draggedWidget = ref<string | null>(null)
   const draggedNodeId = ref<string | null>(null)
-  const dropTargetIndex = ref<number | null>(null)
+  const dropTarget = ref<DropTargetInfo | null>(null)
   const autoScrollTimer = ref<ReturnType<typeof setInterval> | null>(null)
   const selectedNodeId = ref<string | null>(null)
   const confirmDeleteNodeId = ref<string | null>(null)
@@ -72,7 +87,7 @@ export function usePagebuilderEditor() {
   const layout = reactive<PageBuilderLayoutInterface>(createLayout())
   const pageStyleLang = ref<'css' | 'scss'>('css')
   const pageCustomStyles = ref('')
-  const inspectorTab = ref<'widget' | 'page' | 'styles'>('widget')
+  const inspectorTab = ref<'widget' | 'props' | 'page' | 'styles'>('widget')
   const undoStack = ref<string[]>([])
   const redoStack = ref<string[]>([])
 
@@ -82,12 +97,8 @@ export function usePagebuilderEditor() {
   })
 
   const selectedNode = computed<PageBuilderNodeInterface | null>(() => {
-    if (!selectedNodeId.value) {
-      return null
-    }
-    return (
-      layout.children.find((node) => node.id === selectedNodeId.value) ?? null
-    )
+    if (!selectedNodeId.value) return null
+    return findNodeById(layout.children, selectedNodeId.value)
   })
 
   const widgetSources = computed<PageBuilderWidgetSourceFilter[]>(() => [
@@ -148,13 +159,18 @@ export function usePagebuilderEditor() {
     )
   })
 
+  const selectedNodeIsContainer = computed(() => {
+    if (!selectedNode.value) return false
+    return nodeAcceptsChildren(selectedNode.value)
+  })
+
   const componentPropsJson = computed(() => {
     if (!selectedNode.value || selectedNode.value.widgetType !== 'component') {
       return '{}'
     }
-    const componentProps = selectedNode.value.props.componentProps
+    const cProps = selectedNode.value.props.componentProps
     try {
-      return JSON.stringify(componentProps ?? {}, null, 2)
+      return JSON.stringify(cProps ?? {}, null, 2)
     } catch {
       return '{}'
     }
@@ -165,8 +181,28 @@ export function usePagebuilderEditor() {
       return []
     }
     const tag = String(selectedNode.value.props.componentTag ?? '').trim()
-    return COMPONENT_PROPS_SCHEMA[tag] ?? []
+    const manualSchema = COMPONENT_PROPS_SCHEMA[tag] ?? []
+
+    const component =
+      localAtomicComponents[tag] ?? localAtomicComponents[toPascalCase(tag)]
+    if (!component) return manualSchema
+
+    const autoSchema = extractPropsSchema(component)
+    const merged = mergeSchemas(autoSchema, manualSchema)
+    return merged.map((field) =>
+      field.key === 'adType'
+        ? {
+            ...field,
+            type: 'select' as const,
+            label: 'Ad Type',
+            options: [...AD_TYPE_OPTIONS],
+          }
+        : field
+    )
   })
+
+  const containerPropsSchema = computed(() => CONTAINER_PROPS_SCHEMA)
+  const nativeStyleSchema = computed(() => NATIVE_WIDGET_STYLE_SCHEMA)
 
   function getComponentProp(key: string): unknown {
     if (!selectedNode.value) return undefined
@@ -345,7 +381,7 @@ export function usePagebuilderEditor() {
   function onWidgetDragStart(widgetKey: string): void {
     draggedWidget.value = widgetKey
     draggedNodeId.value = null
-    dropTargetIndex.value = null
+    dropTarget.value = null
   }
 
   function onCanvasDragOver(
@@ -367,11 +403,13 @@ export function usePagebuilderEditor() {
       stopAutoScroll()
     }
 
-    const nodeEls = canvas.querySelectorAll<HTMLElement>('[data-node-index]')
+    const nodeEls = canvas.querySelectorAll<HTMLElement>(
+      ':scope > .pb-drop-indicator + [data-node-index], :scope > [data-node-index]'
+    )
     let targetIndex = layout.children.length
 
-    for (let index = 0; index < nodeEls.length; index++) {
-      const el = nodeEls[index]
+    for (let i = 0; i < nodeEls.length; i++) {
+      const el = nodeEls[i]
       if (!el) continue
       const rect = el.getBoundingClientRect()
       const midY = rect.top + rect.height / 2
@@ -381,26 +419,121 @@ export function usePagebuilderEditor() {
         break
       }
     }
-    dropTargetIndex.value = targetIndex
+
+    dropTarget.value = { parentId: null, index: targetIndex }
   }
 
   function onCanvasDragLeave(): void {
-    dropTargetIndex.value = null
+    if (dropTarget.value?.parentId === null) {
+      dropTarget.value = null
+    }
     stopAutoScroll()
   }
 
   function onCanvasDrop(): void {
     stopAutoScroll()
-    const target = dropTargetIndex.value ?? layout.children.length
+    const target = dropTarget.value ?? {
+      parentId: null,
+      index: layout.children.length,
+    }
+
     if (draggedNodeId.value) {
-      moveDraggedNodeToIndex(target)
-      resetNodeDragState()
+      moveNodeToTarget(draggedNodeId.value, target)
+      resetDragState()
       return
     }
+
     if (draggedWidget.value) {
-      insertWidgetAt(draggedWidget.value, target)
+      insertWidgetAtTarget(draggedWidget.value, target)
       draggedWidget.value = null
-      dropTargetIndex.value = null
+      dropTarget.value = null
+    }
+  }
+
+  function onContainerDragOver(payload: {
+    containerId: string
+    event: DragEvent
+    slotName?: string
+  }): void {
+    const container = findNodeById(layout.children, payload.containerId)
+    if (!container) return
+
+    const slotSelector = payload.slotName
+      ? `[data-container-id="${payload.containerId}"][data-slot-name="${payload.slotName}"]`
+      : `[data-container-id="${payload.containerId}"]`
+    const containerEl = document.querySelector(
+      slotSelector
+    ) as HTMLElement | null
+
+    const slotChildren = payload.slotName
+      ? getSlotChildren(container, payload.slotName)
+      : container.children
+
+    if (!containerEl) {
+      dropTarget.value = {
+        parentId: payload.containerId,
+        index: slotChildren.length,
+        slotName: payload.slotName,
+      }
+      return
+    }
+
+    const nodeEls = containerEl.querySelectorAll<HTMLElement>(
+      ':scope > [data-node-id]'
+    )
+    const mouseY = payload.event.clientY
+    let targetIndex = slotChildren.length
+
+    for (let i = 0; i < nodeEls.length; i++) {
+      const el = nodeEls[i]
+      if (!el) continue
+      const rect = el.getBoundingClientRect()
+      const midY = rect.top + rect.height / 2
+      if (mouseY < midY) {
+        targetIndex = i
+        break
+      }
+    }
+
+    dropTarget.value = {
+      parentId: payload.containerId,
+      index: targetIndex,
+      slotName: payload.slotName,
+    }
+  }
+
+  function onContainerDrop(payload: {
+    containerId: string
+    slotName?: string
+  }): void {
+    const target = dropTarget.value ?? {
+      parentId: payload.containerId,
+      index: 0,
+      slotName: payload.slotName,
+    }
+
+    if (draggedNodeId.value) {
+      moveNodeToTarget(draggedNodeId.value, target)
+      resetDragState()
+      return
+    }
+
+    if (draggedWidget.value) {
+      insertWidgetAtTarget(draggedWidget.value, target)
+      draggedWidget.value = null
+      dropTarget.value = null
+    }
+  }
+
+  function onContainerDragLeave(payload: {
+    containerId: string
+    slotName?: string
+  }): void {
+    if (
+      dropTarget.value?.parentId === payload.containerId &&
+      dropTarget.value?.slotName === payload.slotName
+    ) {
+      dropTarget.value = null
     }
   }
 
@@ -419,14 +552,79 @@ export function usePagebuilderEditor() {
   }
 
   function addWidget(widgetKey: string): void {
-    insertWidgetAt(widgetKey, layout.children.length)
+    insertWidgetAtTarget(widgetKey, {
+      parentId: null,
+      index: layout.children.length,
+    })
   }
 
-  function insertWidgetAt(widgetKey: string, index: number): void {
+  function insertWidgetAtTarget(
+    widgetKey: string,
+    target: DropTargetInfo
+  ): void {
     pushUndo()
     const node = createNode(widgetKey)
-    layout.children.splice(index, 0, node)
+
+    if (!target.parentId) {
+      layout.children.splice(target.index, 0, node)
+    } else {
+      const parent = findNodeById(layout.children, target.parentId)
+      if (parent) {
+        if (target.slotName) {
+          insertAtSlotIndex(
+            parent.children,
+            target.slotName,
+            target.index,
+            node
+          )
+        } else {
+          parent.children.splice(target.index, 0, node)
+        }
+      }
+    }
+
     selectedNodeId.value = node.id
+    dirtySinceLastSave.value = true
+  }
+
+  function moveNodeToTarget(nodeId: string, target: DropTargetInfo): void {
+    const result = findParentOfNode(layout.children, nodeId)
+    if (!result) return
+
+    pushUndo()
+    const [movedNode] = result.parent.splice(result.index, 1)
+    if (!movedNode) return
+
+    if (!target.parentId) {
+      const isSameParent = result.parent === layout.children
+      let adjustedIndex = target.index
+      if (isSameParent && result.index < target.index) {
+        adjustedIndex = Math.max(0, target.index - 1)
+      }
+      layout.children.splice(adjustedIndex, 0, movedNode)
+    } else {
+      const parent = findNodeById(layout.children, target.parentId)
+      if (parent) {
+        if (target.slotName) {
+          insertAtSlotIndex(
+            parent.children,
+            target.slotName,
+            target.index,
+            movedNode
+          )
+        } else {
+          const isSameParent = parent.children === result.parent
+          let adjustedIndex = target.index
+          if (isSameParent && result.index < target.index) {
+            adjustedIndex = Math.max(0, target.index - 1)
+          }
+          parent.children.splice(adjustedIndex, 0, movedNode)
+        }
+      }
+    }
+
+    selectedNodeId.value = movedNode.id
+    dirtySinceLastSave.value = true
   }
 
   function selectNode(nodeId: string): void {
@@ -435,18 +633,33 @@ export function usePagebuilderEditor() {
 
   function onNodeDragStart(nodeId: string): void {
     draggedNodeId.value = nodeId
-    dropTargetIndex.value = null
+    dropTarget.value = null
     draggedWidget.value = null
   }
 
   function onNodeDragEnd(): void {
     stopAutoScroll()
-    resetNodeDragState()
+    resetDragState()
+  }
+
+  function resetDragState(): void {
+    draggedNodeId.value = null
+    dropTarget.value = null
   }
 
   function onNodePropChange(key: string, value: unknown): void {
     if (!selectedNode.value) return
     selectedNode.value.props[key] = value
+    dirtySinceLastSave.value = true
+  }
+
+  function onNodeStyleChange(key: string, value: string): void {
+    if (!selectedNode.value) return
+    if (value) {
+      selectedNode.value.styles[key] = value
+    } else {
+      delete selectedNode.value.styles[key]
+    }
     dirtySinceLastSave.value = true
   }
 
@@ -529,7 +742,7 @@ export function usePagebuilderEditor() {
     )
   }
 
-  function componentProps(
+  function componentPropsGetter(
     node: PageBuilderNodeInterface
   ): Record<string, unknown> {
     return getComponentProps(node)
@@ -539,41 +752,13 @@ export function usePagebuilderEditor() {
     return widgetDisplayName(node, PAGE_BUILDER_WIDGETS)
   }
 
-  function moveDraggedNodeToIndex(targetIndex: number): void {
-    if (!draggedNodeId.value) return
-    const fromIndex = layout.children.findIndex(
-      (node) => node.id === draggedNodeId.value
-    )
-    if (fromIndex < 0) return
-
-    pushUndo()
-    const [movedNode] = layout.children.splice(fromIndex, 1)
-    if (!movedNode) return
-
-    const normalizedIndex =
-      fromIndex < targetIndex ? targetIndex - 1 : targetIndex
-    const boundedIndex = Math.max(
-      0,
-      Math.min(normalizedIndex, layout.children.length)
-    )
-
-    layout.children.splice(boundedIndex, 0, movedNode)
-    selectedNodeId.value = movedNode.id
-    dirtySinceLastSave.value = true
-  }
-
-  function resetNodeDragState(): void {
-    draggedNodeId.value = null
-    dropTargetIndex.value = null
-  }
-
   function removeNode(nodeId: string): void {
     confirmDeleteNodeId.value = nodeId
   }
 
   const confirmDeleteNodeName = computed(() => {
     if (!confirmDeleteNodeId.value) return ''
-    const node = layout.children.find((n) => n.id === confirmDeleteNodeId.value)
+    const node = findNodeById(layout.children, confirmDeleteNodeId.value)
     return node ? nodeWidgetDisplayName(node) : ''
   })
 
@@ -582,11 +767,8 @@ export function usePagebuilderEditor() {
     confirmDeleteNodeId.value = null
     if (!nodeId) return
 
-    const index = layout.children.findIndex((node) => node.id === nodeId)
-    if (index < 0) return
-
     pushUndo()
-    layout.children.splice(index, 1)
+    removeNodeById(layout.children, nodeId)
     if (selectedNodeId.value === nodeId) selectedNodeId.value = null
     dirtySinceLastSave.value = true
   }
@@ -663,6 +845,13 @@ export function usePagebuilderEditor() {
     }, 1100)
   }
 
+  function onSetRowColumns(count: number): void {
+    if (!selectedNode.value || selectedNode.value.widgetType !== 'row') return
+    pushUndo()
+    setRowColumns(selectedNode.value, count)
+    dirtySinceLastSave.value = true
+  }
+
   function onKeyboardShortcut(event: KeyboardEvent): void {
     const mod = event.ctrlKey || event.metaKey
     if (!mod) return
@@ -697,7 +886,7 @@ export function usePagebuilderEditor() {
     autosaveEnabled,
     collapsedGroups,
     componentJsonError,
-    componentProps,
+    componentProps: componentPropsGetter,
     componentPropsJson,
     confirmDeleteNodeId,
     confirmDeleteNodeName,
@@ -705,9 +894,10 @@ export function usePagebuilderEditor() {
     confirmDeletePageId,
     confirmDeletePageName,
     confirmRemoveNode,
+    containerPropsSchema,
     createPage,
     draggedNodeId,
-    dropTargetIndex,
+    dropTarget,
     filteredWidgets,
     form,
     getComponentProp,
@@ -719,16 +909,22 @@ export function usePagebuilderEditor() {
     layout,
     listItems,
     loadPage,
+    nativeStyleSchema,
     nodePreviewText,
     nodeWidgetDisplayName,
     onCanvasDragLeave,
     onCanvasDragOver,
     onCanvasDrop,
     onComponentPropsJsonInput,
+    onContainerDragLeave,
+    onContainerDragOver,
+    onContainerDrop,
     onCustomStylesInput,
     onNodeDragEnd,
     onNodeDragStart,
     onNodePropChange,
+    onNodeStyleChange,
+    onSetRowColumns,
     onSettingChange,
     onWidgetDragStart,
     pageCustomStyles,
@@ -744,6 +940,7 @@ export function usePagebuilderEditor() {
     selectNode,
     selectedNode,
     selectedNodeId,
+    selectedNodeIsContainer,
     selectedPageId,
     selectedPageSlug,
     setComponentProp,

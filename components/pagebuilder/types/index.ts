@@ -13,6 +13,10 @@ export type PageBuilderWidgetType =
   | 'quote'
   | 'code'
   | 'component'
+  | 'container'
+  | 'row'
+  | 'column'
+  | 'section'
 
 export type PageBuilderWidgetSourceType = 'native' | 'atomic' | 'templates' | 'sections'
 
@@ -23,6 +27,8 @@ export interface PageBuilderWidgetDefinitionInterface {
   type: PageBuilderWidgetType
   componentTag?: string
   defaultProps: Record<string, unknown>
+  acceptsChildren?: boolean
+  slots?: string[]
 }
 
 export interface PageBuilderNodeInterface {
@@ -32,6 +38,7 @@ export interface PageBuilderNodeInterface {
   props: Record<string, unknown>
   styles: Record<string, string>
   children: PageBuilderNodeInterface[]
+  slot?: string
 }
 
 export interface PageBuilderLayoutInterface {
