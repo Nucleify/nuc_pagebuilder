@@ -64,8 +64,10 @@ export default defineNuxtModule({
     name: 'nuc-pagebuilder',
     configKey: 'nucPagebuilder',
   },
-  setup(_options, nuxt) {
-    nuxt.hook('nitro:config', async (nitroConfig) => {
+  // biome-ignore lint/suspicious/noExplicitAny: fix it later
+  setup(_options: any, nuxt: any) {
+    // biome-ignore lint/suspicious/noExplicitAny: fix it later
+    nuxt.hook('nitro:config', async (nitroConfig: any) => {
       const locales = csvToList(process.env.PAGE_BUILDER_PRERENDER_LOCALES)
         .length
         ? csvToList(process.env.PAGE_BUILDER_PRERENDER_LOCALES)
