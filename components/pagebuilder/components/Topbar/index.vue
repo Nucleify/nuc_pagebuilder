@@ -20,7 +20,9 @@
       <div class="pb-status" :class="`pb-status-${saveState}`">
         <span class="pb-status-dot" />
         {{ saveLabel }}
-        <span v-if="lastSavedLabel" class="pb-status-time"> · {{ lastSavedLabel }}</span>
+        <span v-if="lastSavedLabel" class="pb-status-time">
+          · {{ lastSavedLabel }}
+        </span>
       </div>
     </div>
 
@@ -30,16 +32,24 @@
         title="Undo (Ctrl+Z)"
         :disabled="!selectedPageId"
         @click="emit('undo')"
-      >↩</button>
+      >
+        ↩
+      </button>
       <button
         class="pb-btn pb-btn-sm"
         title="Redo (Ctrl+Y)"
         :disabled="!selectedPageId"
         @click="emit('redo')"
-      >↪</button>
+      >
+        ↪
+      </button>
       <span class="pb-topbar-sep" />
       <label class="pb-autosave-toggle" title="Autosave">
-        <input type="checkbox" :checked="autosaveEnabled" @change="onAutosaveChange" />
+        <input
+          type="checkbox"
+          :checked="autosaveEnabled"
+          @change="onAutosaveChange"
+        />
         <span class="pb-autosave-label">Auto</span>
       </label>
       <span class="pb-topbar-sep" />
@@ -47,18 +57,24 @@
         class="pb-btn"
         :disabled="!selectedPageId || saveState === 'saving'"
         @click="emit('save')"
-      >💾 Save</button>
+      >
+        💾 Save
+      </button>
       <button
         class="pb-btn pb-btn-primary"
         :disabled="!selectedPageId || saveState === 'saving'"
         @click="emit('publish')"
-      >🚀 Publish</button>
+      >
+        🚀 Publish
+      </button>
       <a
         v-if="selectedPageSlug"
         class="pb-btn"
         :href="`/${lang}/${selectedPageSlug}`"
         target="_blank"
-      >↗ Preview</a>
+      >
+        ↗ Preview
+      </a>
     </div>
   </header>
 </template>

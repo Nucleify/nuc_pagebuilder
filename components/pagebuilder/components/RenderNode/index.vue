@@ -94,14 +94,18 @@
     :is="resolvedHeadingTag"
     class="page-builder-node"
     :style="node.styles"
-  >{{ nodeText }}</component>
+  >
+    {{ nodeText }}
+  </component>
 
   <a
     v-else-if="node.widgetType === 'button'"
     class="page-builder-node page-builder-btn"
     :href="String(node.props.href ?? '#')"
     :style="node.styles"
-  >{{ nodeText }}</a>
+  >
+    {{ nodeText }}
+  </a>
 
   <img
     v-else-if="node.widgetType === 'image'"
@@ -165,11 +169,7 @@
     :style="node.styles"
   ><code>{{ node.props.code ?? '' }}</code></pre>
 
-  <p
-    v-else
-    class="page-builder-node"
-    :style="node.styles"
-  >{{ nodeText }}</p>
+  <p v-else class="page-builder-node" :style="node.styles">{{ nodeText }}</p>
 </template>
 
 <script setup lang="ts">

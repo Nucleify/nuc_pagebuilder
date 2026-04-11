@@ -21,8 +21,17 @@
 
     <template #footer>
       <div class="pb-confirm-footer">
-        <ad-button label="Anuluj" severity="secondary" outlined @click="emit('close-node-dialog')" />
-        <ad-button label="Usuń" severity="danger" @click="emit('confirm-remove-node')" />
+        <ad-button
+          label="Anuluj"
+          severity="secondary"
+          outlined
+          @click="emit('close-node-dialog')"
+        />
+        <ad-button
+          label="Usuń"
+          severity="danger"
+          @click="emit('confirm-remove-node')"
+        />
       </div>
     </template>
   </Dialog>
@@ -44,13 +53,23 @@
     </template>
 
     <p class="pb-confirm-text">
-      Czy na pewno chcesz usunąć <strong>{{ confirmDeletePageName }}</strong>? Tej operacji nie można cofnąć.
+      Czy na pewno chcesz usunąć <strong>{{ confirmDeletePageName }}</strong>?
+      Tej operacji nie można cofnąć.
     </p>
 
     <template #footer>
       <div class="pb-confirm-footer">
-        <ad-button label="Anuluj" severity="secondary" outlined @click="emit('close-page-dialog')" />
-        <ad-button label="Usuń" severity="danger" @click="emit('confirm-delete-page')" />
+        <ad-button
+          label="Anuluj"
+          severity="secondary"
+          outlined
+          @click="emit('close-page-dialog')"
+        />
+        <ad-button
+          label="Usuń"
+          severity="danger"
+          @click="emit('confirm-delete-page')"
+        />
       </div>
     </template>
   </Dialog>

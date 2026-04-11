@@ -92,7 +92,9 @@
     </div>
   </section>
 
-  <component :is="'style'" v-if="pageCustomStyles">{{ pageCustomStyles }}</component>
+  <component :is="'style'" v-if="pageCustomStyles">
+    {{ pageCustomStyles }}
+  </component>
 
   <Dialogs
     :confirm-delete-node-id="confirmDeleteNodeId"

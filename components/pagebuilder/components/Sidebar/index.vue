@@ -18,7 +18,9 @@
               class="pb-page-delete"
               title="Delete page"
               @click.stop="emit('delete-page', page.id)"
-            >✕</button>
+            >
+              ✕
+            </button>
           </div>
         </div>
       </li>
@@ -30,7 +32,21 @@
     </div>
 
     <div class="pb-widget-search-row">
-      <svg class="pb-search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <svg
+        class="pb-search-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
       <input
         :value="widgetSearch"
         class="pb-input pb-input-search"
@@ -83,7 +99,9 @@
             @click="emit('add-widget', widget.key)"
           >
             <span class="pb-widget-card-icon">{{ widgetIcon(widget) }}</span>
-            <span class="pb-widget-card-label">{{ getWidgetShortLabel(widget) }}</span>
+            <span class="pb-widget-card-label">
+              {{ getWidgetShortLabel(widget) }}
+            </span>
           </button>
         </div>
       </template>

@@ -14,12 +14,16 @@
     @click.stop="emit('select-node', node.id)"
   >
     <div class="pb-node-header">
-      <span class="pb-node-title">{{ index + 1 }}. {{ widgetDisplayName(node) }}</span>
+      <span class="pb-node-title">
+        {{ index + 1 }}. {{ widgetDisplayName(node) }}
+      </span>
       <button
         class="pb-node-delete"
         type="button"
         @click.stop="emit('remove-node', node.id)"
-      >✕</button>
+      >
+        ✕
+      </button>
     </div>
 
     <!-- Heading -->
@@ -28,10 +32,16 @@
       :is="String(node.props.level ?? 'h2')"
       :style="node.styles"
       class="pb-inline-preview"
-    >{{ node.props.text ?? '' }}</component>
+    >
+      {{ node.props.text ?? '' }}
+    </component>
 
     <!-- Text -->
-    <p v-else-if="node.widgetType === 'text'" :style="node.styles" class="pb-inline-preview">
+    <p
+      v-else-if="node.widgetType === 'text'"
+      :style="node.styles"
+      class="pb-inline-preview"
+    >
       {{ node.props.text ?? '' }}
     </p>
 
@@ -42,7 +52,9 @@
       :style="node.styles"
       class="pb-inline-preview pb-btn-preview"
       @click.prevent
-    >{{ node.props.text ?? '' }}</a>
+    >
+      {{ node.props.text ?? '' }}
+    </a>
 
     <!-- Image -->
     <img
@@ -54,7 +66,10 @@
     />
 
     <!-- Video -->
-    <div v-else-if="node.widgetType === 'video'" class="pb-inline-preview pb-video-preview">
+    <div
+      v-else-if="node.widgetType === 'video'"
+      class="pb-inline-preview pb-video-preview"
+    >
       <iframe
         :src="String(node.props.src ?? '')"
         :width="String(node.props.width ?? '100%')"
@@ -66,7 +81,11 @@
     </div>
 
     <!-- Divider -->
-    <hr v-else-if="node.widgetType === 'divider'" :style="node.styles" class="pb-inline-preview pb-divider-preview" />
+    <hr
+      v-else-if="node.widgetType === 'divider'"
+      :style="node.styles"
+      class="pb-inline-preview pb-divider-preview"
+    />
 
     <!-- Spacer -->
     <div
@@ -91,7 +110,9 @@
       :style="node.styles"
       class="pb-inline-preview pb-list-preview"
     >
-      <li v-for="(item, itemIndex) in listItems(node)" :key="itemIndex">{{ item }}</li>
+      <li v-for="(item, itemIndex) in listItems(node)" :key="itemIndex">
+        {{ item }}
+      </li>
     </component>
 
     <!-- Quote -->
@@ -111,8 +132,15 @@
     ><code>{{ node.props.code ?? '' }}</code></pre>
 
     <!-- Component with named slots (e.g. card: header, title, content) -->
-    <div v-else-if="node.widgetType === 'component' && widgetSlots" class="pb-node-render">
-      <component :is="resolvedComponentTag(node)" v-bind="componentProps(node)" :style="node.styles">
+    <div
+      v-else-if="node.widgetType === 'component' && widgetSlots"
+      class="pb-node-render"
+    >
+      <component
+        :is="resolvedComponentTag(node)"
+        v-bind="componentProps(node)"
+        :style="node.styles"
+      >
         <template v-for="sName in widgetSlots" :key="sName" #[sName]>
           <ChildrenDropZone
             :node="node"
@@ -138,8 +166,15 @@
     </div>
 
     <!-- Component with default slot only -->
-    <div v-else-if="node.widgetType === 'component' && acceptsChildren" class="pb-node-render">
-      <component :is="resolvedComponentTag(node)" v-bind="componentProps(node)" :style="node.styles">
+    <div
+      v-else-if="node.widgetType === 'component' && acceptsChildren"
+      class="pb-node-render"
+    >
+      <component
+        :is="resolvedComponentTag(node)"
+        v-bind="componentProps(node)"
+        :style="node.styles"
+      >
         <ChildrenDropZone
           :node="node"
           :selected-node-id="selectedNodeId"
@@ -162,8 +197,16 @@
     </div>
 
     <!-- Leaf component (no children accepted) -->
-    <div v-else-if="node.widgetType === 'component'" class="pb-node-render" :style="leafWrapperStyle">
-      <component :is="resolvedComponentTag(node)" v-bind="leafComponentProps" :style="node.styles" />
+    <div
+      v-else-if="node.widgetType === 'component'"
+      class="pb-node-render"
+      :style="leafWrapperStyle"
+    >
+      <component
+        :is="resolvedComponentTag(node)"
+        v-bind="leafComponentProps"
+        :style="node.styles"
+      />
     </div>
 
     <!-- Native container (container/row/column/section) -->

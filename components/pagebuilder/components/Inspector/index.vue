@@ -5,23 +5,31 @@
         class="pb-inspector-tab"
         :class="{ active: inspectorTab === 'widget' }"
         @click="emit('update:inspector-tab', 'widget')"
-      >Widget</button>
+      >
+        Widget
+      </button>
       <button
         v-if="selectedNode?.widgetType === 'component'"
         class="pb-inspector-tab"
         :class="{ active: inspectorTab === 'props' }"
         @click="emit('update:inspector-tab', 'props')"
-      >Props</button>
+      >
+        Props
+      </button>
       <button
         class="pb-inspector-tab"
         :class="{ active: inspectorTab === 'page' }"
         @click="emit('update:inspector-tab', 'page')"
-      >Page</button>
+      >
+        Page
+      </button>
       <button
         class="pb-inspector-tab"
         :class="{ active: inspectorTab === 'styles' }"
         @click="emit('update:inspector-tab', 'styles')"
-      >Styles</button>
+      >
+        Styles
+      </button>
     </div>
 
     <div v-if="inspectorTab === 'page'" class="pb-inspector-body">
@@ -114,21 +122,36 @@
               class="pb-col-btn"
               :disabled="selectedNode.children.length <= 1"
               @click="emit('set-row-columns', selectedNode.children.length - 1)"
-            >−</button>
+            >
+              −
+            </button>
             <span class="pb-col-count">{{ selectedNode.children.length }}</span>
             <button
               class="pb-col-btn"
               :disabled="selectedNode.children.length >= 12"
               @click="emit('set-row-columns', selectedNode.children.length + 1)"
-            >+</button>
+            >
+              +
+            </button>
           </div>
           <div class="pb-col-presets">
-            <button v-for="n in [1,2,3,4,6]" :key="n" class="pb-col-preset" :class="{ active: selectedNode.children.length === n }" @click="emit('set-row-columns', n)">{{ n }}</button>
+            <button
+              v-for="n in [1,2,3,4,6]"
+              :key="n"
+              class="pb-col-preset"
+              :class="{ active: selectedNode.children.length === n }"
+              @click="emit('set-row-columns', n)"
+            >
+              {{ n }}
+            </button>
           </div>
         </template>
 
         <!-- Container info -->
-        <div v-if="selectedNodeIsContainer && selectedNode.widgetType !== 'row'" class="pb-container-info">
+        <div
+          v-if="selectedNodeIsContainer && selectedNode.widgetType !== 'row'"
+          class="pb-container-info"
+        >
           <span>{{ selectedNode.children.length }} children</span>
         </div>
 
@@ -152,7 +175,11 @@
                 :value="String(selectedNode.props[field.key] ?? field.default ?? '')"
                 @change="emit('node-prop-change', field.key, ($event.target as HTMLSelectElement).value)"
               >
-                <option v-for="option in field.options" :key="option" :value="option">
+                <option
+                  v-for="option in field.options"
+                  :key="option"
+                  :value="option"
+                >
                   {{ option || '(default)' }}
                 </option>
               </select>
@@ -176,7 +203,13 @@
             :value="String(selectedNode.props.level ?? 'h2')"
             @change="emit('node-prop-change', 'level', ($event.target as HTMLSelectElement).value)"
           >
-            <option v-for="level in ['h1','h2','h3','h4','h5','h6']" :key="level" :value="level">{{ level }}</option>
+            <option
+              v-for="level in ['h1','h2','h3','h4','h5','h6']"
+              :key="level"
+              :value="level"
+            >
+              {{ level }}
+            </option>
           </select>
         </label>
         <label v-if="selectedNode.widgetType === 'button'" class="pb-label">
@@ -331,12 +364,16 @@
           </label>
         </template>
       </template>
-      <p v-else class="pb-empty-small">Select a widget on the canvas to edit its properties.</p>
+      <p v-else class="pb-empty-small">
+        Select a widget on the canvas to edit its properties.
+      </p>
     </div>
 
     <div v-else-if="inspectorTab === 'props'" class="pb-inspector-body">
       <template v-if="selectedNode?.widgetType === 'component'">
-        <p class="pb-inspector-type">{{ String(selectedNode.props.componentTag ?? '') }}</p>
+        <p class="pb-inspector-type">
+          {{ String(selectedNode.props.componentTag ?? '') }}
+        </p>
         <template v-if="activeComponentSchema.length > 0">
           <template v-for="field in activeComponentSchema" :key="field.key">
             <label v-if="field.type === 'string'" class="pb-label">
@@ -358,7 +395,10 @@
                 @input="emit('set-component-prop', field.key, Number(($event.target as HTMLInputElement).value))"
               />
             </label>
-            <label v-else-if="field.type === 'boolean'" class="pb-label pb-label-inline">
+            <label
+              v-else-if="field.type === 'boolean'"
+              class="pb-label pb-label-inline"
+            >
               <input
                 type="checkbox"
                 :checked="!!getComponentProp(field.key) || (getComponentProp(field.key) === undefined && !!field.default)"
@@ -366,7 +406,10 @@
               />
               {{ field.label }}
             </label>
-            <label v-else-if="field.type === 'select' && field.key === 'adType'" class="pb-label">
+            <label
+              v-else-if="field.type === 'select' && field.key === 'adType'"
+              class="pb-label"
+            >
               {{ field.label }}
               <ad-select
                 :model-value="String(getComponentProp(field.key) ?? field.default ?? 'main')"
@@ -383,7 +426,11 @@
                 :value="String(getComponentProp(field.key) ?? field.default ?? '')"
                 @change="emit('set-component-prop', field.key, ($event.target as HTMLSelectElement).value)"
               >
-                <option v-for="option in field.options" :key="option" :value="option">
+                <option
+                  v-for="option in field.options"
+                  :key="option"
+                  :value="option"
+                >
                   {{ option || '(default)' }}
                 </option>
               </select>
@@ -423,11 +470,17 @@
             :value="componentPropsJson"
             @input="emit('component-props-json-input', ($event.target as HTMLTextAreaElement).value)"
           />
-          <p class="pb-styles-hint">No schema for this component. Edit raw JSON.</p>
+          <p class="pb-styles-hint">
+            No schema for this component. Edit raw JSON.
+          </p>
         </template>
-        <p v-if="componentJsonError" class="pb-error">{{ componentJsonError }}</p>
+        <p v-if="componentJsonError" class="pb-error">
+          {{ componentJsonError }}
+        </p>
       </template>
-      <p v-else class="pb-empty-small">Select a component widget to edit its props.</p>
+      <p v-else class="pb-empty-small">
+        Select a component widget to edit its props.
+      </p>
     </div>
 
     <div v-else-if="inspectorTab === 'styles'" class="pb-inspector-body">
@@ -436,12 +489,16 @@
           class="pb-chip-btn"
           :class="{ active: pageStyleLang === 'css' }"
           @click="emit('update:page-style-lang', 'css')"
-        >CSS</button>
+        >
+          CSS
+        </button>
         <button
           class="pb-chip-btn"
           :class="{ active: pageStyleLang === 'scss' }"
           @click="emit('update:page-style-lang', 'scss')"
-        >SCSS</button>
+        >
+          SCSS
+        </button>
       </div>
       <textarea
         class="pb-textarea pb-textarea-code pb-styles-editor"
@@ -450,8 +507,10 @@
         @input="emit('custom-styles-input', ($event.target as HTMLTextAreaElement).value)"
       />
       <p class="pb-styles-hint">
-        Styles are scoped to <code>#page-builder-public</code>.
-        Output: <code>&lt;style{{ pageStyleLang === 'scss' ? ' lang=&quot;scss&quot;' : '' }}&gt;</code>
+        Styles are scoped to <code>#page-builder-public</code>. Output:
+        <code>
+          &lt;style{{ pageStyleLang === 'scss' ? ' lang=&quot;scss&quot;' : '' }}&gt;
+        </code>
       </p>
     </div>
   </aside>
