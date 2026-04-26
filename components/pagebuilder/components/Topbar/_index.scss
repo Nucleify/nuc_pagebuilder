@@ -82,11 +82,11 @@
       }
 
       &:checked {
-        background: #10b98140;
+        background: var(--main-sc);
 
         &::after {
           left: 14px;
-          background: #10b981;
+          background: var(--main-c);
         }
       }
     }
@@ -123,18 +123,18 @@
   }
 
   .pb-status-saved {
-    color: #10b981;
+    color: var(--main-c);
 
     .pb-status-dot {
-      background: #10b981;
+      background: var(--main-c);
     }
   }
 
   .pb-status-saving {
-    color: #34d399;
+    color: var(--main-hv);
 
     .pb-status-dot {
-      background: #34d399;
+      background: var(--main-hv);
       animation: pulse-dot 1s infinite;
     }
   }

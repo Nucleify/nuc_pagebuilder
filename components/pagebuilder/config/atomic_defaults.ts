@@ -79,7 +79,7 @@ export const ATOMIC_DEFAULT_PROPS: Record<string, Record<string, unknown>> = {
           label: 'Revenue',
           data: [12, 19, 8, 15, 22, 30],
           backgroundColor: 'rgba(16, 185, 129, 0.6)',
-          borderColor: '#10b981',
+          borderColor: '#34d999',
           borderWidth: 1,
         },
       ],

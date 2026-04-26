@@ -2,7 +2,7 @@ $pb-dialog-bg: rgb(8 12 10 / 96%);
 $pb-dialog-border: #1a2e24;
 $pb-dialog-radius: 14px;
 $pb-dialog-color: #d4dbd7;
-$pb-dialog-accent: #10b981;
+$pb-dialog-accent: var(--main-c);
 $pb-dialog-input-bg: #060d09;
 
 .pb-confirm-dialog.p-dialog {
@@ -43,7 +43,7 @@ $pb-dialog-input-bg: #060d09;
   transition: all 0.15s ease;
 
   &:hover {
-    background: rgb(16 185 129 / 12%) !important;
+    background: var(--main-sl) !important;
     border-color: $pb-dialog-accent;
   }
 }
@@ -61,7 +61,7 @@ $pb-dialog-input-bg: #060d09;
     color: $pb-dialog-color;
 
     &:hover {
-      border-color: rgb(16 185 129 / 25%);
+      border-color: var(--main-sc);
       background: #0a1510;
     }
   }
@@ -93,7 +93,7 @@ $pb-dialog-input-bg: #060d09;
 
     &:focus {
       outline: none;
-      border-color: rgb(16 185 129 / 50%);
+      border-color: var(--main-f);
     }
   }
 

@@ -36,8 +36,8 @@
     }
 
     &.active {
-      background: rgb(16 185 129 / 12%);
-      color: #10b981;
+      background: var(--main-sl);
+      color: var(--main-c);
     }
   }
 
@@ -101,10 +101,10 @@
   .pb-inspector-type {
     margin: 0 0 8px;
     padding: 4px 8px;
-    background: rgb(16 185 129 / 12%);
+    background: var(--main-sl);
     border-radius: 6px;
     font-size: 12px;
-    color: #10b981;
+    color: var(--main-c);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: inline-block;
@@ -115,7 +115,7 @@
     align-items: center;
     gap: 6px;
     padding: 6px 10px;
-    background: rgb(16 185 129 / 8%);
+    background: var(--main-h);
     border: 1px solid #1a2e24;
     border-radius: 6px;
     font-size: 12px;
@@ -131,7 +131,7 @@
 
     input[type='checkbox'] {
       width: auto;
-      accent-color: #10b981;
+      accent-color: var(--main-c);
     }
   }
 
@@ -147,7 +147,7 @@
 
     &:focus-within {
       outline: none;
-      border-color: #10b98180;
+      border-color: var(--main-f);
     }
 
     .p-select-label {
@@ -179,14 +179,14 @@
     transition: all 0.15s;
 
     &:hover {
-      border-color: #10b981;
+      border-color: var(--main-c);
       color: #b8c5be;
     }
 
     &.active {
-      background: rgb(16 185 129 / 15%);
-      border-color: #10b981;
-      color: #10b981;
+      background: var(--main-h);
+      border-color: var(--main-c);
+      color: var(--main-c);
     }
   }
 
@@ -201,11 +201,11 @@
     line-height: 1.5;
 
     code {
-      background: rgb(16 185 129 / 10%);
+      background: var(--main-h);
       padding: 1px 5px;
       border-radius: 3px;
       font-size: 11px;
-      color: #10b981;
+      color: var(--main-c);
     }
   }
 
@@ -242,8 +242,8 @@
     transition: all 0.15s ease;
 
     &:hover:not(:disabled) {
-      border-color: #10b981;
-      color: #10b981;
+      border-color: var(--main-c);
+      color: var(--main-c);
     }
 
     &:disabled {
@@ -255,7 +255,7 @@
   .pb-col-count {
     font-size: 16px;
     font-weight: 600;
-    color: #10b981;
+    color: var(--main-c);
     min-width: 20px;
     text-align: center;
   }
@@ -279,14 +279,14 @@
     transition: all 0.15s ease;
 
     &:hover {
-      border-color: #10b98160;
+      border-color: var(--main-f);
       color: #d4dbd7;
     }
 
     &.active {
-      border-color: #10b981;
-      background: #10b98115;
-      color: #10b981;
+      border-color: var(--main-c);
+      background: var(--main-h);
+      color: var(--main-c);
     }
   }
 }

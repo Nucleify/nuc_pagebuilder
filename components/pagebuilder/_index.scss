@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(ellipse at 70% -5%, rgb(16 185 129 / 10%), transparent 50%),
-    radial-gradient(ellipse at 10% 15%, rgb(16 185 129 / 6%), transparent 40%),
+    radial-gradient(ellipse at 70% -5%, var(--main-h), transparent 50%),
+    radial-gradient(ellipse at 10% 15%, var(--main-h), transparent 40%),
     #020504;
   
   .pb-panel {
@@ -38,7 +38,7 @@
 
     &:focus {
       outline: none;
-      border-color: #10b98180;
+      border-color: var(--main-f);
     }
   }
 
@@ -65,13 +65,13 @@
     transition: all 0.15s ease;
 
     &:hover {
-      border-color: #10b98140;
+      border-color: var(--main-sc);
       background: #0a1510;
     }
 
     &.pb-btn-primary {
-      border-color: #10b981;
-      background: #10b981;
+      border-color: var(--main-c);
+      background: var(--main-c);
       color: #021a0f;
       font-weight: 600;
 

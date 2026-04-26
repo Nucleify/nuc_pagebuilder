@@ -24,8 +24,8 @@
     &.active {
       height: 3px;
       margin: 2px 0;
-      background: #10b981;
-      box-shadow: 0 0 6px #10b98160;
+      background: var(--main-c);
+      box-shadow: 0 0 6px var(--main-f);
     }
   }
 

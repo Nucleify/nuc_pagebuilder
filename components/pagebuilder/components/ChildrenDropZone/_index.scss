@@ -6,15 +6,15 @@
   transition: border-color 0.15s ease, background 0.15s ease;
 
   &.drop-active {
-    border-color: #10b981;
-    background: rgb(16 185 129 / 8%);
+    border-color: var(--main-c);
+    background: var(--main-h);
   }
 
   .pb-slot-label {
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #10b98180;
+    color: var(--main-f);
     padding: 2px 6px;
     margin-bottom: 2px;
   }
@@ -36,8 +36,8 @@
     &.active {
       height: 3px;
       margin: 2px 0;
-      background: #10b981;
-      box-shadow: 0 0 6px #10b98160;
+      background: var(--main-c);
+      box-shadow: 0 0 6px var(--main-f);
     }
   }
 }
