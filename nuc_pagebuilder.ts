@@ -1,8 +1,8 @@
 import type { App, Component } from 'vue'
 
-import * as AtomicAtom from '../../nuxt/atomic/atom'
-import * as AtomicMolecule from '../../nuxt/atomic/molecule'
-import * as AtomicOrganism from '../../nuxt/atomic/organism'
+import * as AtomicAtom from 'nucleify/atom'
+import * as AtomicMolecule from 'nucleify/molecule'
+import * as AtomicOrganism from 'nucleify/organism'
 import {
   NucPageBuilderEditor,
   NucPageBuilderRender,
