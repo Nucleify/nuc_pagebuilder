@@ -1,0 +1,113 @@
+.pb-editor {
+  height: 100vh;
+  overflow: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(
+      ellipse at 70% -5%,
+      var(--nuc-bg-green-color-05),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 10% 15%,
+      var(--nuc-bg-green-color-05),
+      transparent 40%
+    ),
+    var(--nuc-bg-dark-green-color);
+  
+  .pb-panel {
+    background: var(--nuc-p-card-background);
+    border: 1px solid var(--nuc-p-card-border);
+    border-radius: 14px;
+    box-shadow: 0 8px 28px rgb(0 0 0 / 40%);
+    color: var(--nuc-dark-text-color);
+    backdrop-filter: blur(6px);
+  }
+
+  .pb-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr 300px;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .pb-input,
+  .pb-textarea {
+    width: 100%;
+    border: 1px solid var(--nuc-p-card-border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: var(--nuc-bg-black-color);
+    color: var(--nuc-dark-text-color);
+    transition: border-color 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-focus-color;
+    }
+  }
+
+  .pb-label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--nuc-primary-text-color);
+  }
+
+  .pb-textarea {
+    min-height: 120px;
+  }
+
+  .pb-btn {
+    border: 1px solid var(--nuc-p-card-border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    background: var(--nuc-bg-black-color);
+    color: var(--nuc-dark-text-color);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s ease;
+
+    &:hover {
+      border-color: $primary-secondary-color;
+      background: var(--nuc-content-background);
+    }
+
+    &.pb-btn-primary {
+      border-color: $primary-color;
+      background: $primary-color;
+      color: #021a0f;
+      font-weight: 600;
+
+      &:hover {
+        background: #10a674;
+        border-color: #10a674;
+      }
+    }
+  }
+
+  .pb-empty-small {
+    color: var(--nuc-secondary-text-color);
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .pb-editor {
+    .pb-layout {
+      grid-template-columns: 240px 1fr 260px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .pb-editor {
+    .pb-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+}

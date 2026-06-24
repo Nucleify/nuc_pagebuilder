@@ -1,0 +1,43 @@
+.pb-children-drop-zone {
+  min-height: 48px;
+  border: 1px dashed var(--nuc-p-card-border);
+  border-radius: 6px;
+  padding: 4px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &.drop-active {
+    border-color: $primary-color;
+    background: $primary-highlight-color;
+  }
+
+  .pb-slot-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: $primary-focus-color;
+    padding: 2px 6px;
+    margin-bottom: 2px;
+  }
+
+  .pb-children-empty {
+    font-size: 10px;
+    color: var(--nuc-secondary-text-color);
+    text-align: center;
+    padding: 4px 0;
+  }
+
+  .pb-drop-indicator {
+    height: 0;
+    margin: 0;
+    transition: all 0.12s ease;
+    border-radius: 3px;
+    pointer-events: none;
+
+    &.active {
+      height: 3px;
+      margin: 2px 0;
+      background: $primary-color;
+      box-shadow: 0 0 6px $primary-focus-color;
+    }
+  }
+}

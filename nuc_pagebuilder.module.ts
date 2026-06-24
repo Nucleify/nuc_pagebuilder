@@ -1,6 +1,5 @@
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-
 import { defineNuxtModule } from '@nuxt/kit'
 
 function csvToList(value?: string): string[] {

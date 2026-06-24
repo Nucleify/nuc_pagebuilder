@@ -1,12 +1,12 @@
 import type { App, Component } from 'vue'
 
-import * as AtomicAtom from 'nucleify/atom'
-import * as AtomicMolecule from 'nucleify/molecule'
-import * as AtomicOrganism from 'nucleify/organism'
 import {
+  AtomicAtom,
+  AtomicMolecule,
+  AtomicOrganism,
   NucPageBuilderEditor,
   NucPageBuilderRender,
-} from './components/pagebuilder'
+} from 'nucleify'
 
 function toKebabCase(name: string): string {
   return name.replace(
