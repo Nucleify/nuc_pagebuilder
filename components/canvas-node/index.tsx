@@ -84,9 +84,9 @@ export function NucPageBuilderCanvasNode({
       filtered[key] = value
     }
     if (tag === 'ad-date-picker') {
-      const adType = filtered.adType ?? cp.adType
-      if (adType != null && String(adType).trim()) {
-        filtered.panelClass = String(adType).trim()
+      const nuiType = filtered.nuiType ?? cp.nuiType
+      if (nuiType != null && String(nuiType).trim()) {
+        filtered.panelClass = String(nuiType).trim()
       }
     }
     return filtered

@@ -233,7 +233,7 @@ export function usePagebuilderEditor() {
     const autoSchema = extractPropsSchemaReact()
     const merged = mergeSchemas(autoSchema, manualSchema)
     return merged.map((field) =>
-      field.key === 'adType'
+      field.key === 'nuiType'
         ? {
             ...field,
             type: 'select' as const,

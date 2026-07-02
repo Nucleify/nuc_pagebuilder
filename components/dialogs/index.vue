@@ -7,7 +7,7 @@
     :dismissable-mask="true"
     class="pb-confirm-dialog"
     :pt="{
-      pcCloseButton: { root: { 'ad-type': 'main' } },
+      pcCloseButton: { root: { 'nui-type': 'main' } },
     }"
     @update:visible="emit('close-node-dialog')"
   >
@@ -44,7 +44,7 @@
     :dismissable-mask="true"
     class="pb-confirm-dialog"
     :pt="{
-      pcCloseButton: { root: { 'ad-type': 'main' } },
+      pcCloseButton: { root: { 'nui-type': 'main' } },
     }"
     @update:visible="emit('close-page-dialog')"
   >

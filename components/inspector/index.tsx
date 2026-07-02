@@ -600,7 +600,7 @@ export function NucPageBuilderInspector({
                       </label>
                     )
                   }
-                  if (field.type === 'select' && field.key === 'adType') {
+                  if (field.type === 'select' && field.key === 'nuiType') {
                     return (
                       <label key={field.key} className="pb-label">
                         {field.label}
@@ -610,7 +610,7 @@ export function NucPageBuilderInspector({
                               field.default ??
                               'main'
                           )}
-                          adType="main"
+                          nuiType="main"
                           options={(field.options ?? []) as string[]}
                           className="pb-ad-select"
                           onChange={(value) =>

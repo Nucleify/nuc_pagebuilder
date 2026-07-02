@@ -407,13 +407,13 @@
               {{ field.label }}
             </label>
             <label
-              v-else-if="field.type === 'select' && field.key === 'adType'"
+              v-else-if="field.type === 'select' && field.key === 'nuiType'"
               class="pb-label"
             >
               {{ field.label }}
               <ad-select
                 :model-value="String(getComponentProp(field.key) ?? field.default ?? 'main')"
-                ad-type="main"
+                nui-type="main"
                 :options="(field.options ?? []) as string[]"
                 class="pb-ad-select"
                 @update:model-value="emit('set-component-prop', field.key, $event)"

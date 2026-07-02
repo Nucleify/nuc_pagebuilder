@@ -39,7 +39,7 @@ export function createNode(widgetKey: string): PageBuilderNodeInterface {
     type === 'component'
       ? {
           componentTag: widget?.componentTag ?? 'div',
-          componentProps: { adType: 'main', ...(widget?.defaultProps ?? {}) },
+          componentProps: { nuiType: 'main', ...(widget?.defaultProps ?? {}) },
         }
       : (widget?.defaultProps ?? {})
 
