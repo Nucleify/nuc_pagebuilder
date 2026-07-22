@@ -176,8 +176,9 @@
 import type { Component } from 'vue'
 import { computed } from 'vue'
 
-import type { PageBuilderNodeInterface } from 'nucleify'
-import { getWidgetSlots, NucPageBuilderRenderNode } from 'nucleify'
+import type { PageBuilderNodeInterface } from '../../types/interfaces'
+import { getWidgetSlots } from '../../utils/layout'
+import NucPageBuilderRenderNode from './index.vue'
 
 interface Props {
   node: PageBuilderNodeInterface

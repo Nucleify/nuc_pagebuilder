@@ -10,6 +10,17 @@ import {
   useState,
 } from 'react'
 
+import {
+  createPageBuilderPage,
+  deletePageBuilderPage,
+  fetchPageBuilderPages,
+  fetchPageBuilderPreferences,
+  loadPageBuilderPage,
+  publishPageBuilderPage,
+  savePageBuilderDraft,
+  savePageBuilderPreferences,
+} from './api'
+
 import { COMPONENT_PROPS_SCHEMA } from '../config/component_props_schema'
 import { AD_TYPE_OPTIONS } from '../config/editor'
 import {
@@ -28,16 +39,6 @@ import type {
   PageBuilderSaveState,
   PageBuilderWidgetSourceFilter,
 } from '../types/variables'
-import {
-  createPageBuilderPage,
-  deletePageBuilderPage,
-  fetchPageBuilderPages,
-  fetchPageBuilderPreferences,
-  loadPageBuilderPage,
-  publishPageBuilderPage,
-  savePageBuilderDraft,
-  savePageBuilderPreferences,
-} from '../utils/api/requests'
 import {
   buildLocalAtomicComponentsReact,
   extractPropsSchemaReact,

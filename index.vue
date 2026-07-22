@@ -109,14 +109,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  NucPageBuilderCanvas,
-  NucPageBuilderDialogs,
-  NucPageBuilderInspector,
-  NucPageBuilderSidebar,
-  NucPageBuilderTopbar,
-} from 'nucleify'
-import { usePagebuilderEditor } from 'nucleify'
+import NucPageBuilderCanvas from './components/canvas/index.vue'
+import NucPageBuilderDialogs from './components/dialogs/index.vue'
+import NucPageBuilderInspector from './components/inspector/index.vue'
+import NucPageBuilderSidebar from './components/sidebar/index.vue'
+import NucPageBuilderTopbar from './components/topbar/index.vue'
+import { usePagebuilderEditor } from './utils/use_pagebuilder_editor'
 
 const {
   activeComponentSchema,

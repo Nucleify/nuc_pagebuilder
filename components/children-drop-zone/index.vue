@@ -49,8 +49,11 @@
 import type { Component } from 'vue'
 import { computed } from 'vue'
 
-import type { DropTargetInfo, PageBuilderNodeInterface } from 'nucleify'
-import { NucPageBuilderCanvasNode } from 'nucleify'
+import type {
+  DropTargetInfo,
+  PageBuilderNodeInterface,
+} from '../../types/interfaces'
+import NucPageBuilderCanvasNode from '../canvas-node/index.vue'
 
 interface Props {
   node: PageBuilderNodeInterface

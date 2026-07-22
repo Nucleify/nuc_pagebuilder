@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PageBuilderSaveState } from 'nucleify'
+import type { PageBuilderSaveState } from '../../types/variables'
 
 interface Props {
   title: string

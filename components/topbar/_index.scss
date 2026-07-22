@@ -7,6 +7,13 @@
   gap: 10px;
   margin-bottom: 14px;
   padding: 8px 14px;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--pb-accent-rgb) / 8%) 0%,
+      transparent 100%
+    ),
+    var(--nuc-p-card-background);
   
   .pb-topbar-left {
     display: flex;
@@ -48,7 +55,12 @@
   .pb-topbar-sep {
     width: 1px;
     height: 20px;
-    background: var(--nuc-p-card-border);
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgb(var(--pb-accent-rgb) / 40%),
+      transparent
+    );
     margin: 0 2px;
   }
 
@@ -82,11 +94,11 @@
       }
 
       &:checked {
-        background: $primary-secondary-color;
+        background: $primary-color;
 
         &::after {
           left: 14px;
-          background: $primary-color;
+          background: #fff;
         }
       }
     }

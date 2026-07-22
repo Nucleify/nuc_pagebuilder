@@ -520,9 +520,9 @@
 import type {
   PageBuilderLayoutInterface,
   PageBuilderNodeInterface,
-  PropFieldSchema,
-} from 'nucleify'
-import { jsonStringify } from 'nucleify'
+} from '../../types/interfaces'
+import type { PropFieldSchema } from '../../config/schema_types'
+import { jsonStringify } from '../../utils/json_stringify'
 import { ref, watch } from 'vue'
 
 interface Props {

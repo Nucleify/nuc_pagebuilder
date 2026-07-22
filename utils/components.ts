@@ -1,7 +1,5 @@
 import type { Component } from 'vue'
 
-import type { PageBuilderNodeInterface, PropFieldSchema } from 'nucleify'
-
 import {
   camelToLabel,
   componentTag,
@@ -9,6 +7,9 @@ import {
   shouldIncludeProp,
   toPascalCase,
 } from './components_shared'
+
+import type { PropFieldSchema } from '../config/schema_types'
+import type { PageBuilderNodeInterface } from '../types/interfaces'
 
 export * from './components_shared'
 

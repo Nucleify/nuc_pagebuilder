@@ -1,10 +1,11 @@
 import type { ComponentType } from 'react'
 
-import * as Nucleify from 'nucleify'
-import { AtomicAtom, AtomicMolecule, AtomicOrganism } from 'nucleify'
-
 import { componentTag, toPascalCase } from './components_shared'
 
+import * as AtomicAtom from '../../../next/atomic/atom'
+import * as AtomicMolecule from '../../../next/atomic/molecule'
+import * as AtomicOrganism from '../../../next/atomic/organism'
+import * as NucleifyModules from '../../index.react'
 import type { PageBuilderNodeInterface } from '../types/interfaces'
 
 export * from './components_shared'
@@ -17,9 +18,8 @@ export type ReactComponentMap = Record<
 export function buildLocalAtomicComponentsReact(): ReactComponentMap {
   // Pagebuilder needs more than just Atomic components: it also renders
   // Templates (`nuc-*`) and Sections (`nuc-section-*`) in preview.
-  // Those are exported from `nucleify` top-level, so include them here.
   const exportsMap = {
-    ...Nucleify,
+    ...NucleifyModules,
     ...AtomicAtom,
     ...AtomicMolecule,
     ...AtomicOrganism,

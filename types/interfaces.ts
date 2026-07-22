@@ -2,7 +2,7 @@ import type {
   PageBuilderStatusType,
   PageBuilderWidgetSourceType,
   PageBuilderWidgetType,
-} from 'nucleify'
+} from './variables'
 
 export interface WidgetGroup {
   key: string

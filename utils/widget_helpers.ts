@@ -1,4 +1,5 @@
-import type { PageBuilderNodeInterface, PageBuilderWidgetType } from 'nucleify'
+import type { PageBuilderNodeInterface } from '../types/interfaces'
+import type { PageBuilderWidgetType } from '../types/variables'
 
 const containerTypes: ReadonlySet<PageBuilderWidgetType> = new Set([
   'container',

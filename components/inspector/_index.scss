@@ -10,25 +10,30 @@
     display: flex;
     gap: 0;
     margin-bottom: 14px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--nuc-p-card-border);
+    border-bottom: 1px solid var(--nuc-p-card-border);
+    border-radius: 0;
+    overflow: visible;
+    border-top: none;
+    border-left: none;
+    border-right: none;
   }
 
   .pb-inspector-tab {
     flex: 1;
-    padding: 6px 0;
+    padding: 8px 0;
     font-size: 12px;
     font-weight: 600;
     text-align: center;
-    background: var(--nuc-bg-black-color);
+    background: transparent;
     color: var(--nuc-secondary-text-color);
     border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
     cursor: pointer;
     transition: all 0.15s;
 
     &:not(:last-child) {
-      border-right: 1px solid var(--nuc-p-card-border);
+      border-right: none;
     }
 
     &:hover {
@@ -36,8 +41,9 @@
     }
 
     &.active {
-      background: $primary-selected-color;
+      background: transparent;
       color: $primary-color;
+      border-bottom-color: $primary-color;
     }
   }
 
@@ -101,10 +107,11 @@
   .pb-inspector-type {
     margin: 0 0 8px;
     padding: 4px 8px;
-    background: $primary-selected-color;
+    background: rgb(var(--pb-accent-rgb) / 12%);
+    border: 1px solid rgb(var(--pb-accent-rgb) / 24%);
     border-radius: 6px;
     font-size: 12px;
-    color: $primary-color;
+    color: var(--pb-accent-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: inline-block;
@@ -115,8 +122,8 @@
     align-items: center;
     gap: 6px;
     padding: 6px 10px;
-    background: $primary-highlight-color;
-    border: 1px solid var(--nuc-p-card-border);
+    background: rgb(var(--pb-accent-rgb) / 8%);
+    border: 1px solid rgb(var(--pb-accent-rgb) / 20%);
     border-radius: 6px;
     font-size: 12px;
     color: var(--nuc-primary-text-color);
@@ -170,8 +177,8 @@
   .pb-chip-btn {
     padding: 4px 14px;
     border-radius: 6px;
-    border: 1px solid var(--nuc-p-card-border);
-    background: var(--nuc-bg-black-color);
+    border: 1px solid rgb(var(--pb-accent-rgb) / 18%);
+    background: color-mix(in srgb, var(--pb-surface-1) 70%, transparent);
     color: var(--nuc-secondary-text-color);
     font-size: 12px;
     font-weight: 600;
@@ -179,14 +186,14 @@
     transition: all 0.15s;
 
     &:hover {
-      border-color: $primary-color;
+      border-color: rgb(var(--pb-accent-rgb) / 40%);
       color: var(--nuc-dark-text-color);
     }
 
     &.active {
-      background: $primary-highlight-color;
-      border-color: $primary-color;
-      color: $primary-color;
+      background: rgb(var(--pb-accent-rgb) / 14%);
+      border-color: rgb(var(--pb-accent-rgb) / 45%);
+      color: var(--pb-accent-muted);
     }
   }
 

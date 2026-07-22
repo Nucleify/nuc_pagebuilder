@@ -1,8 +1,8 @@
+import { apiRequest } from '../../nuc_api/utils/api_request'
 import type {
   PageBuilderLayoutInterface,
   PageBuilderPageInterface,
-} from 'nucleify'
-import { apiRequest } from 'nucleify'
+} from '../types/interfaces'
 
 export function extractPageBuilderData<T>(response: unknown): T | null {
   let current: unknown = response

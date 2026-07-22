@@ -1,4 +1,4 @@
-import type { PageBuilderWidgetDefinitionInterface } from 'nucleify'
+import type { PageBuilderWidgetDefinitionInterface } from '../types/interfaces'
 
 export const NATIVE_WIDGETS: PageBuilderWidgetDefinitionInterface[] = [
   {

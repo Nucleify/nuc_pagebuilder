@@ -10,52 +10,63 @@ import {
 } from 'vue'
 import { useRoute } from 'vue-router'
 
+import {
+  createPageBuilderPage,
+  deletePageBuilderPage,
+  fetchPageBuilderPages,
+  fetchPageBuilderPreferences,
+  loadPageBuilderPage,
+  publishPageBuilderPage,
+  savePageBuilderDraft,
+  savePageBuilderPreferences,
+} from './api'
+import {
+  buildLocalAtomicComponents,
+  extractPropsSchema,
+  resolveComponentTag,
+} from './components'
+import {
+  getComponentProps,
+  listItems,
+  mergeSchemas,
+  nodePreviewText,
+  toPascalCase,
+  widgetDisplayName,
+} from './components_shared'
+import {
+  createLayout,
+  createNode,
+  findNodeById,
+  findParentOfNode,
+  getSlotChildren,
+  insertAtSlotIndex,
+  nodeAcceptsChildren,
+  removeNodeById,
+  setRowColumns,
+} from './layout'
+import { buildGroupedWidgets } from './widgets'
+
+import * as AtomicAtom from '../../../nuxt/atomic/atom'
+import * as AtomicMolecule from '../../../nuxt/atomic/molecule'
+import * as AtomicOrganism from '../../../nuxt/atomic/organism'
+import { COMPONENT_PROPS_SCHEMA } from '../config/component_props_schema'
+import { AD_TYPE_OPTIONS } from '../config/editor'
+import {
+  CONTAINER_PROPS_SCHEMA,
+  NATIVE_WIDGET_STYLE_SCHEMA,
+} from '../config/style_schema'
+import { PAGE_BUILDER_WIDGETS } from '../config/widget_registry'
 import type {
   DropTargetInfo,
   PageBuilderLayoutInterface,
   PageBuilderNodeInterface,
   PageBuilderPageInterface,
+  WidgetGroup,
+} from '../types/interfaces'
+import type {
   PageBuilderSaveState,
   PageBuilderWidgetSourceFilter,
-  WidgetGroup,
-} from 'nucleify'
-import {
-  AD_TYPE_OPTIONS,
-  AtomicAtom,
-  AtomicMolecule,
-  AtomicOrganism,
-  buildGroupedWidgets,
-  buildLocalAtomicComponents,
-  COMPONENT_PROPS_SCHEMA,
-  CONTAINER_PROPS_SCHEMA,
-  createLayout,
-  createNode,
-  createPageBuilderPage,
-  deletePageBuilderPage,
-  extractPropsSchema,
-  fetchPageBuilderPages,
-  fetchPageBuilderPreferences,
-  findNodeById,
-  findParentOfNode,
-  getComponentProps,
-  getSlotChildren,
-  insertAtSlotIndex,
-  listItems,
-  loadPageBuilderPage,
-  mergeSchemas,
-  NATIVE_WIDGET_STYLE_SCHEMA,
-  nodeAcceptsChildren,
-  nodePreviewText,
-  PAGE_BUILDER_WIDGETS,
-  publishPageBuilderPage,
-  removeNodeById,
-  resolveComponentTag,
-  savePageBuilderDraft,
-  savePageBuilderPreferences,
-  setRowColumns,
-  toPascalCase,
-  widgetDisplayName,
-} from 'nucleify'
+} from '../types/variables'
 
 export function usePagebuilderEditor() {
   const route = useRoute()

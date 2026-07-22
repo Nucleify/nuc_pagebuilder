@@ -116,10 +116,10 @@
 import type {
   PageBuilderPageInterface,
   PageBuilderWidgetDefinitionInterface,
-  PageBuilderWidgetSourceFilter,
   WidgetGroup,
-} from 'nucleify'
-import { getWidgetShortLabel, widgetIcon } from 'nucleify'
+} from '../../types/interfaces'
+import type { PageBuilderWidgetSourceFilter } from '../../types/variables'
+import { getWidgetShortLabel, widgetIcon } from '../../utils/widgets'
 
 interface Props {
   pages: PageBuilderPageInterface[]

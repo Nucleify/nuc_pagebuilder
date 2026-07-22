@@ -246,13 +246,16 @@
 import type { Component } from 'vue'
 import { computed } from 'vue'
 
-import type { DropTargetInfo, PageBuilderNodeInterface } from 'nucleify'
+import type {
+  DropTargetInfo,
+  PageBuilderNodeInterface,
+} from '../../types/interfaces'
 import {
   getWidgetSlots,
   isContainerType,
   nodeAcceptsChildren,
-  NucPageBuilderChildrenDropZone,
-} from 'nucleify'
+} from '../../utils/layout'
+import NucPageBuilderChildrenDropZone from '../children-drop-zone/index.vue'
 
 interface Props {
   node: PageBuilderNodeInterface

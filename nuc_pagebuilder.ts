@@ -1,12 +1,11 @@
 import type { App, Component } from 'vue'
 
-import {
-  AtomicAtom,
-  AtomicMolecule,
-  AtomicOrganism,
-  NucPageBuilderEditor,
-  NucPageBuilderRender,
-} from 'nucleify'
+import NucPageBuilderEditor from './index.vue'
+import NucPageBuilderRender from './render.vue'
+
+import * as AtomicAtom from '../../nuxt/atomic/atom'
+import * as AtomicMolecule from '../../nuxt/atomic/molecule'
+import * as AtomicOrganism from '../../nuxt/atomic/organism'
 
 function toKebabCase(name: string): string {
   return name.replace(

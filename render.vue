@@ -16,20 +16,27 @@
 import type { Component } from 'vue'
 import { computed, getCurrentInstance } from 'vue'
 
+import * as AtomicAtom from '../../nuxt/atomic/atom'
+import * as AtomicMolecule from '../../nuxt/atomic/molecule'
+import * as AtomicOrganism from '../../nuxt/atomic/organism'
+
+import NucPageBuilderRenderNode from './components/render-node/index.vue'
 import type {
   PageBuilderLayoutInterface,
   PageBuilderNodeInterface,
-} from 'nucleify'
-
-import { AtomicAtom, AtomicMolecule, AtomicOrganism } from 'nucleify'
-import { NucPageBuilderRenderNode } from 'nucleify'
+} from './types/interfaces'
+import { buildLocalAtomicComponents } from './utils/components'
 
 const props = defineProps<{
   layout: PageBuilderLayoutInterface | null
 }>()
 const instance = getCurrentInstance()
 
-const localAtomicComponents = buildLocalAtomicComponents()
+const localAtomicComponents = buildLocalAtomicComponents({
+  ...AtomicAtom,
+  ...AtomicMolecule,
+  ...AtomicOrganism,
+})
 
 const nodes = computed<PageBuilderNodeInterface[]>(
   () => props.layout?.children ?? []
@@ -41,34 +48,6 @@ function toPascalCase(tag: string): string {
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join('')
-}
-
-function buildLocalAtomicComponents(): Record<string, Component> {
-  const exportsMap = {
-    ...AtomicAtom,
-    ...AtomicMolecule,
-    ...AtomicOrganism,
-  } as Record<string, unknown>
-
-  const map: Record<string, Component> = {}
-
-  for (const [name, value] of Object.entries(exportsMap)) {
-    if (!name.startsWith('Ad') || !value) {
-      continue
-    }
-
-    const kebab = name
-      .replace(
-        /[A-Z]/g,
-        (char, index) => `${index > 0 ? '-' : ''}${char.toLowerCase()}`
-      )
-      .trim()
-
-    map[name] = value as Component
-    map[kebab] = value as Component
-  }
-
-  return map
 }
 
 function resolvedComponentTag(
